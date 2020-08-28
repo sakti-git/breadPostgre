@@ -18,151 +18,263 @@
     integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
     crossorigin="anonymous"></script>
 
-  <form id="form-test" method="POST" style="padding-inline: 50px;">
-    <div>
-      <div>
+  <form id="form-filter" method="GET" style="padding-inline: 50px;">
+    <div class="card">
+      <div class="card-header card text-white bg-dark mb-3">
         <h2>B.R.E.A.D (Browse, Read, Edit, Add, Delete)</h2>
-        <h3>Coba Add Data</h3>
+        <h3>Filter</h3>
       </div>
+      <div class="card-body">
 
-      <div class="row">
-        <div class="col">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="true" id="cekId" name="checkId">
-            <label class="form-check-label" for="id">
-              ID
-            </label>
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="true" id="cekId" name="checkId">
+              <label class="form-check-label" for="id">
+                ID
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="fil-id" class="form-control" id="fil-id" placeholder="Ketikkan id ...">
+            </div>
           </div>
         </div>
-        <div class="col-10">
-          <div class="form-group">
-            <input type="text" name="id" class="form-control" id="id" placeholder="Ketikkan id ...">
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="true" id="cekString" name="checkString">
+              <label class="form-check-label" for="string">
+                String
+              </label>
+            </div>
           </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="fil-string" class="form-control" id="fil-string"
+                placeholder="Masukkan nilai String ...">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="true" id="cekInteger" name="checkInteger">
+              <label class="form-check-label" for="integer">
+                Integer
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="fil-integer" class="form-control" id="fil-integer"
+                placeholder="Masukkan nilai Integer ...">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="true" id="cekFloat" name="checkFloat">
+              <label class="form-check-label" for="float">
+                Float
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="fil-float" class="form-control" id="fil-float"
+                placeholder="Masukkan nilai Float ...">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="true" id="cekDate" name="checkDate">
+              <label class="form-check-label" for="date">
+                Date
+              </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <input type="date" name="startDate" class="form-control" id="startDate">
+            </div>
+          </div>
+          <div class="w-100"></div>
+          <p class="col offset-2">to</p>
+          <div class="w-100"></div>
+          <div class="col-3 offset-2">
+            <div class="form-group">
+              <input type="date" name="endDate" class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="true" id="cekBoolean" name="checkBoolean">
+              <label class="form-check-label" for="boolean">
+                Boolean
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <select name="fil-boolean" id="fil-boolean" class="custom-select custom-select">
+                <option selected>Choose the boolean ...</option>
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search</button></br>
+
+        <div class="container" style="padding-top: 20px;">
+          <table class="table table-hover table-info">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">String</th>
+                <th scope="col">Integer</th>
+                <th scope="col">Float</th>
+                <th scope="col">Date</th>
+                <th scope="col">Boolean</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item <%= page == 1 ? ' disabled' : '' %>"><a class="page-link"
+                  href="?page=<%= page - 1 %>">Previous</a></li>
+              <li class="page-item <%= page == i ? ' active' : '' %>"><a class="page-link" href="?page=<%= i %>"></a>
+              </li>
+              <li class="page-item <%= page == pages ? ' disabled' : '' %>"><a class="page-link"
+                  href="?page=<%= Number(page) + 1 %>">Next</a></li>
+            </ul>
+          </nav>
         </div>
       </div>
+    </div>
+  </form>
 
-      <div class="row">
-        <div class="col">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="true" id="cekString" name="checkString">
-            <label class="form-check-label" for="string">
-              String
-            </label>
-          </div>
-        </div>
-        <div class="col-10">
-          <div class="form-group">
-            <input type="text" name="string" class="form-control" id="string" placeholder="Masukkan nilai String ...">
-          </div>
-        </div>
+  <hr>
+
+  <form id="form-add" method="POST" style="padding-inline: 50px;">
+    <div class="card">
+      <div class="card-header card text-white bg-dark mb-3">
+        <h3>- Add Data -</h3>
       </div>
+      <div class="card-body">
 
-      <div class="row">
-        <div class="col">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="true" id="cekInteger" name="checkInteger">
-            <label class="form-check-label" for="integer">
-              Integer
-            </label>
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label" for="id">
+                ID
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="id" class="form-control" id="id" placeholder="Ketikkan id ...">
+            </div>
           </div>
         </div>
-        <div class="col-10">
-          <div class="form-group">
-            <input type="text" name="integer" class="form-control" id="integer"
-              placeholder="Masukkan nilai Integer ...">
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label" for="string">
+                String
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="string" class="form-control" id="string" placeholder="Masukkan nilai String ...">
+            </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label" for="integer">
+                Integer
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="integer" class="form-control" id="integer"
+                placeholder="Masukkan nilai Integer ...">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label" for="float">
+                Float
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="float" class="form-control" id="float" placeholder="Masukkan nilai Float ...">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-2">
+            <div class="form-check">
+              <label class="form-check-label" for="date">
+                Date
+              </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <input type="date" name="date" class="form-control" id="date">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label" for="boolean">
+                Boolean
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <select name="boolean" id="boolean" class="custom-select custom-select">
+                <option selected>Choose the boolean ...</option>
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
       </div>
-
-      <div class="row">
-        <div class="col">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="true" id="cekFloat" name="checkFloat">
-            <label class="form-check-label" for="float">
-              Float
-            </label>
-          </div>
-        </div>
-        <div class="col-10">
-          <div class="form-group">
-            <input type="text" name="float" class="form-control" id="float" placeholder="Masukkan nilai Float ...">
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-2">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="true" id="cekDate" name="checkDate">
-            <label class="form-check-label" for="date">
-              Date
-            </label>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="form-group">
-            <input type="date" name="date" class="form-control" id="date">
-          </div>
-        </div>
-        <!-- <div class="w-100"></div>
-        <p class="col offset-2">to</p>
-        <div class="w-100"></div>
-        <div class="col-3 offset-2">
-          <div class="form-group">
-            <input type="date" name="endDate" class="form-control">
-          </div>
-        </div> -->
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="true" id="cekBoolean" name="checkBoolean">
-            <label class="form-check-label" for="boolean">
-              Boolean
-            </label>
-          </div>
-        </div>
-        <div class="col-10">
-          <div class="form-group">
-            <select name="boolean" id="boolean" class="custom-select custom-select">
-              <option selected>Choose the boolean ...</option>
-              <option value="true">True</option>
-              <option value="false">False</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- <button type="submit" class="btn btn-primary">Search</button></br> -->
-
-      <div class="container" style="padding-top: 20px;">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>String</th>
-              <th>Integer</th>
-              <th>Float</th>
-              <th>Date</th>
-              <th>Boolean</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-        <!-- <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item <%= page == 1 ? ' disabled' : '' %>"><a class="page-link"
-                href="?page=<%= page - 1 %>">Previous</a></li>
-            <li class="page-item <%= page == i ? ' active' : '' %>"><a class="page-link" href="?page=<%= i %>"></a></li>
-            <li class="page-item <%= page == pages ? ' disabled' : '' %>"><a class="page-link"
-                href="?page=<%= Number(page) + 1 %>">Next</a></li>
-          </ul>
-        </nav> -->
-      </div>
-      <button type="submit" class="btn btn-primary">Add</button>
     </div>
   </form>
 
@@ -172,7 +284,7 @@
     $(document).ready(() => {
       loadData();
 
-      $('#form-test').submit((event) => {
+      $('#form-add').submit((event) => {
         event.preventDefault();
         let string = $('#string').val();
         let integer = $('#integer').val();
@@ -183,7 +295,7 @@
       })
 
       $('table tbody').on("click", ".btn-delete", function () {
-        console.log($(this).attr('dataId'));
+        delData($(this).attr('dataId'));
       });
 
     })
@@ -205,7 +317,7 @@
               <td>${item.date}</td>
               <td>${item.boolean}</td>
               <td>
-                <button class="btn btn-success">Edit</button>
+                <button class="btn btn-success"><a href="http://localhost:3000/edit.html">Edit</a></button>
                 <button type=button class="btn btn-danger btn-delete" dataId="${item.id}">Delete</button>
               </td>
             </tr>`
@@ -239,6 +351,28 @@
           alert("Request failed: " + textStatus);
         });
 
+    }
+
+    const editData = (id) => {
+      $.ajax({
+        method: "GET",
+        url: `${API_URL}test/${id}`,
+        dataType: 'json'
+      })
+        .done(result => {
+          let html = ''
+          result.forEach(item => {
+            $('#id').val(item.id)
+            $('#string').val(item.string)
+            $('#integer').val(item.integer)
+            $('#float').val(item.float)
+            $('#date').val(item.date)
+            $('#boolean').val(item.boolean)
+          })
+        })
+        .fail(function (jqXHR, textStatus) {
+          alert("Request failed: " + textStatus);
+        });
     }
 
     const delData = (id) => {
