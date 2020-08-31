@@ -189,7 +189,7 @@
           </div>
           <div class="col-10">
             <div class="form-group">
-              <input type="text" name="id" class="form-control" id="id" placeholder="Ketikkan id ...">
+              <input type="text" name="add-id" class="form-control" id="add-id" placeholder="Ketikkan id ...">
             </div>
           </div>
         </div>
@@ -204,7 +204,8 @@
           </div>
           <div class="col-10">
             <div class="form-group">
-              <input type="text" name="string" class="form-control" id="string" placeholder="Masukkan nilai String ...">
+              <input type="text" name="add-string" class="form-control" id="add-string"
+                placeholder="Masukkan nilai String ...">
             </div>
           </div>
         </div>
@@ -219,7 +220,7 @@
           </div>
           <div class="col-10">
             <div class="form-group">
-              <input type="text" name="integer" class="form-control" id="integer"
+              <input type="text" name="add-integer" class="form-control" id="add-integer"
                 placeholder="Masukkan nilai Integer ...">
             </div>
           </div>
@@ -235,7 +236,8 @@
           </div>
           <div class="col-10">
             <div class="form-group">
-              <input type="text" name="float" class="form-control" id="float" placeholder="Masukkan nilai Float ...">
+              <input type="text" name="add-float" class="form-control" id="add-float"
+                placeholder="Masukkan nilai Float ...">
             </div>
           </div>
         </div>
@@ -250,7 +252,7 @@
           </div>
           <div class="col-3">
             <div class="form-group">
-              <input type="date" name="date" class="form-control" id="date">
+              <input type="date" name="add-date" class="form-control" id="add-date">
             </div>
           </div>
         </div>
@@ -265,7 +267,7 @@
           </div>
           <div class="col-10">
             <div class="form-group">
-              <select name="boolean" id="boolean" class="custom-select custom-select">
+              <select name="add-boolean" id="add-boolean" class="custom-select custom-select">
                 <option selected>Choose the boolean ...</option>
                 <option value="true">True</option>
                 <option value="false">False</option>
@@ -273,7 +275,117 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </form>
+
+  <hr>
+
+  <form id="form-edit" method="POST" style="padding-inline: 50px;">
+    <div class="card">
+      <div class="card-header card text-white bg-dark mb-3">
+        <h3>- Edit Data -</h3>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label" for="id">
+                ID
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="edit-id" class="form-control" id="edit-id" placeholder="Ketikkan id ...">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label" for="string">
+                String
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="edit-string" class="form-control" id="edit-string"
+                placeholder="Masukkan nilai String ...">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label" for="integer">
+                Integer
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="edit-integer" class="form-control" id="edit-integer"
+                placeholder="Masukkan nilai Integer ...">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label" for="float">
+                Float
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <input type="text" name="edit-float" class="form-control" id="edit-float"
+                placeholder="Masukkan nilai Float ...">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-2">
+            <div class="form-check">
+              <label class="form-check-label" for="date">
+                Date
+              </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <input type="date" name="edit-date" class="form-control" id="edit-date">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label" for="boolean">
+                Boolean
+              </label>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="form-group">
+              <select name="edit-boolean" id="edit-boolean" class="custom-select custom-select">
+                <option selected>Choose the boolean ...</option>
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
       </div>
     </div>
   </form>
@@ -286,11 +398,11 @@
 
       $('#form-add').submit((event) => {
         event.preventDefault();
-        let string = $('#string').val();
-        let integer = $('#integer').val();
-        let float = $('#float').val();
-        let date = $('#date').val();
-        let boolean = $('#boolean').val();
+        let string = $('#add-string').val();
+        let integer = $('#add-integer').val();
+        let float = $('#add-float').val();
+        let date = $('#add-date').val();
+        let boolean = $('#add-boolean').val();
         addData({ string, integer, float, date, boolean });
       })
 
@@ -298,7 +410,27 @@
         delData($(this).attr('dataId'));
       });
 
+      $('#form-edit').submit((event) => {
+        event.preventDefault();
+        let id = $('#edit-id').val()
+        let string = $('#edit-string').val()
+        let integer = $('#edit-integer').val()
+        let float = $('#edit-float').val()
+        let date = $('#edit-date').val()
+        let boolean = $('#edit-boolean').val()
+        updateData(id, string, integer, float, date, boolean);
+      })
+
+      $('#form-edit').submit((event) => {
+        event.preventDefault();
+      })
+
+      $("table tbody").on("click", ".btn-edit", function () {
+        editData($(this).attr('dataId'));
+      })
+
     })
+
 
     const loadData = () => {
 
@@ -309,7 +441,8 @@
         .done(function (data) {
           let html = '';
           data.forEach(item => {
-            html += `<tr>
+            html += `
+            <tr>
               <th>${item.id}</th>
               <td>${item.string}</td>
               <td>${item.integer}</td>
@@ -317,7 +450,7 @@
               <td>${item.date}</td>
               <td>${item.boolean}</td>
               <td>
-                <button class="btn btn-success"><a href="http://localhost:3000/edit.html">Edit</a></button>
+                <button type=button class="btn btn-success btn-edit" dataId="${item.id}">Edit</button>
                 <button type=button class="btn btn-danger btn-delete" dataId="${item.id}">Delete</button>
               </td>
             </tr>`
@@ -353,27 +486,59 @@
 
     }
 
-    const editData = (id) => {
-      $.ajax({
-        method: "GET",
-        url: `${API_URL}test/${id}`,
-        dataType: 'json'
-      })
-        .done(result => {
-          let html = ''
-          result.forEach(item => {
-            $('#id').val(item.id)
-            $('#string').val(item.string)
-            $('#integer').val(item.integer)
-            $('#float').val(item.float)
-            $('#date').val(item.date)
-            $('#boolean').val(item.boolean)
-          })
-        })
-        .fail(function (jqXHR, textStatus) {
-          alert("Request failed: " + textStatus);
-        });
-    }
+    // const editData = (id) => {
+    //   $.ajax({
+    //     method: "GET",
+    //     url: `${API_URL}test/${id}`,
+    //     dataType: 'json'
+    //   })
+    //     .done(result => {
+    //       let html = ''
+    //       result.forEach(item => {
+    //         $('#edit-id').val(item.id)
+    //         $('#edit-string').val(item.string)
+    //         $('#edit-integer').val(item.integer)
+    //         $('#edit-float').val(item.float)
+    //         $('#edit-date').val(item.date)
+    //         $('#edit-boolean').val(item.boolean)
+    //       })
+    //     })
+    //     .fail(function (jqXHR, textStatus) {
+    //       alert("Request failed: " + textStatus);
+    //     });
+    // }
+
+    // const updateData = (id, string, integer, float, date, boolean) => {
+
+    //   $.ajax({
+    //     method: "PUT",
+    //     url: `${API_URL}test/${id}`,
+    //     data: { string, integer, float, date, boolean },
+    //     dataType ='json'
+    //   })
+    //     .done(function (data) {
+    //       loadData();
+    //     })
+    //     .fail(function (jqXHR, textStatus) {
+    //       alert("Request failed: " + textStatus);
+    //     });
+
+    // }
+
+    // const resData = (test) => {
+    //   $.ajax({
+    //     method: "POST",
+    //     url: `${API_URL}test`,
+    //     data: test
+    //   })
+    //     .done(function (data) {
+    //       loadData()
+    //       $('.form-control').text('');
+    //     })
+    //     .fail(function (jqXHR, textStatus) {
+    //       alert("Request failed: " + textStatus);
+    //     });
+    // } 
 
     const delData = (id) => {
 
