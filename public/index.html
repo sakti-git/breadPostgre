@@ -157,12 +157,7 @@
           </table>
           <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li class="page-item <%= page == 1 ? ' disabled' : '' %>"><a class="page-link"
-                  href="?page=<%= page - 1 %>">Previous</a></li>
-              <li class="page-item <%= page == i ? ' active' : '' %>"><a class="page-link" href="?page=<%= i %>"></a>
-              </li>
-              <li class="page-item <%= page == pages ? ' disabled' : '' %>"><a class="page-link"
-                  href="?page=<%= Number(page) + 1 %>">Next</a></li>
+
             </ul>
           </nav>
         </div>
@@ -421,7 +416,7 @@
         updateData(id, string, integer, float, date, boolean);
       })
 
-      $('#form-edit').submit((event) => {
+      $('#form-add').submit((event) => {
         event.preventDefault();
       })
 
@@ -429,21 +424,51 @@
         editData($(this).attr('dataId'));
       })
 
+      $('nav').on("click", 'li', function (event) {
+        event.preventDefault();
+        $('#page').val($(this).attr('pageid'))
+        loadData();
+
+      })
+      $('#form-filter').submit((event) => {
+        event.preventDefault();
+        $('#page').val(1);
+        loadData()
+      })
+
     })
 
 
     const loadData = () => {
 
+      let page = $('#page').val();
+      let id = $('#fil-id').val();
+      let string = $('#fil-string').val();
+      let integer = $('#fil-integer').val();
+      let startDate = $('#startdate').val();
+      let endDate = $('#endDate').val();
+      let float = $('#fil-float').val();
+      let boolean = $('#fil-boolean').val();
+
       $.ajax({
         method: "GET",
-        url: `${API_URL}test`
+        url: `${API_URL}test`,
+        data: { page, id, string, integer, startDate, endDate, float, boolean },
+        dataType: 'json'
       })
-        .done(function (data) {
+        .done(result => {
+          const data = result.data;
+          let page = result.page;
+          let pages = result.pages;
+          let pagination = '';
           let html = '';
+
+          console.log(`page:${page}, pages:${pages}`)
+
           data.forEach(item => {
             html += `
             <tr>
-              <th>${item.id}</th>
+              <th scope="row">${item.id}</th>
               <td>${item.string}</td>
               <td>${item.integer}</td>
               <td>${item.float}</td>
@@ -455,7 +480,29 @@
               </td>
             </tr>`
           });
+
+          if (page == 1) {
+            pagination += `<li class="page-item previous disabled" pageid="${page - 1}"><a class="page-link" href="#">Previous</a></li>\n`;
+          } else {
+            pagination += `<li class="page-item previous" pageid="${page - 1}"><a class="page-link" href="#">Previous</a></li>\n`;
+          }
+
+          for (i = 1; i <= pages; i++) {
+            if (i == page) {
+              pagination += `<li class="page-item active" pageid="${i}"><a class="page-link" href="#">${i}</a></li>\n`;
+            } else {
+              pagination += `<li class="page-item" pageid="${i}"><a class="page-link" href="#">${i}</a></li>\n`;
+            }
+          }
+          if (page == Number(pages)) {
+            pagination += `<li class="page-item next disabled" pageid="${page + 1}"><a class="page-link" href="#">Next</a></li>\n`;
+          } else {
+            pagination += `<li class="page-item next" pageid="${page + 1}"><a class="page-link" href="#">Next</a></li>\n`;
+          }
+
           $('table tbody').html(html);
+          $('nav ul').html(pagination);
+
         })
         .fail(function (jqXHR, textStatus) {
           alert("Request failed: " + textStatus);
@@ -465,20 +512,53 @@
     }
 
     const addData = (test) => {
-
       $.ajax({
         method: "POST",
         url: `${API_URL}test`,
         data: test
       })
         .done(function (data) {
+          loadData()
+          $('.form-control').text('');
+        })
+        .fail(function (jqXHR, textStatus) {
+          alert("Request failed: " + textStatus);
+        });
+    }
+
+
+    const editData = (id) => {
+      $.ajax({
+        method: "GET",
+        url: `${API_URL}test/${id}`,
+        dataType: 'json'
+      })
+        .done(result => {
+          let html = ''
+          result.forEach(item => {
+            $('#edit-id').val(item.id)
+            $('#edit-string').val(item.string)
+            $('#edit-integer').val(item.integer)
+            $('#edit-float').val(item.float)
+            $('#edit-date').val(item.date)
+            $('#edit-boolean').val(item.boolean)
+          })
+        })
+        .fail(function (jqXHR, textStatus) {
+          alert("Request failed: " + textStatus);
+        });
+    }
+
+    const updateData = (id, string, integer, float, date, boolean) => {
+
+      $.ajax({
+        method: "PUT",
+        url: `${API_URL}test/${id}`,
+        data: { string, integer, float, date, boolean },
+        dataType: 'json'
+      })
+        .done(function (data) {
           loadData();
-          $('#id').val('');
-          $('#string').val('');
-          $('#integer').val('');
-          $('#float').val('');
-          $('#date').val('');
-          $('#boolean').val('');
         })
         .fail(function (jqXHR, textStatus) {
           alert("Request failed: " + textStatus);
@@ -486,59 +566,6 @@
 
     }
 
-    // const editData = (id) => {
-    //   $.ajax({
-    //     method: "GET",
-    //     url: `${API_URL}test/${id}`,
-    //     dataType: 'json'
-    //   })
-    //     .done(result => {
-    //       let html = ''
-    //       result.forEach(item => {
-    //         $('#edit-id').val(item.id)
-    //         $('#edit-string').val(item.string)
-    //         $('#edit-integer').val(item.integer)
-    //         $('#edit-float').val(item.float)
-    //         $('#edit-date').val(item.date)
-    //         $('#edit-boolean').val(item.boolean)
-    //       })
-    //     })
-    //     .fail(function (jqXHR, textStatus) {
-    //       alert("Request failed: " + textStatus);
-    //     });
-    // }
-
-    // const updateData = (id, string, integer, float, date, boolean) => {
-
-    //   $.ajax({
-    //     method: "PUT",
-    //     url: `${API_URL}test/${id}`,
-    //     data: { string, integer, float, date, boolean },
-    //     dataType ='json'
-    //   })
-    //     .done(function (data) {
-    //       loadData();
-    //     })
-    //     .fail(function (jqXHR, textStatus) {
-    //       alert("Request failed: " + textStatus);
-    //     });
-
-    // }
-
-    // const resData = (test) => {
-    //   $.ajax({
-    //     method: "POST",
-    //     url: `${API_URL}test`,
-    //     data: test
-    //   })
-    //     .done(function (data) {
-    //       loadData()
-    //       $('.form-control').text('');
-    //     })
-    //     .fail(function (jqXHR, textStatus) {
-    //       alert("Request failed: " + textStatus);
-    //     });
-    // } 
 
     const delData = (id) => {
 

@@ -1,14 +1,76 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-module.exports = (pool) => {
+module.exports = function (pool) {
 
   router.get('/', function (req, res, next) {
-    pool.query('SELECT * FROM test ORDER BY id ASC ', (err, data) => {
-      if (err) return res.status(500).json({ err })
-      res.json(data.rows)
+
+    let params = [];
+    let search = false;
+
+    if (req.query.checkId && req.query.id) {
+      params.push(`id = ${req.query.id}`);
+      search = true;
+    }
+
+    if (req.query.checkString && req.query.string) {
+      params.push(`string = "${req.query.string}"`);
+      search = true;
+    }
+
+    if (req.query.checkInteger && req.query.integer) {
+      params.push(`integer = "${req.query.integer}"`);
+      search = true;
+    }
+
+    if (req.query.checkFloat && req.query.float) {
+      params.push(`float = "${req.query.float}"`);
+      search = true;
+    }
+
+    if (req.query.checkDate && req.query.startDate && req.query.endDate) {
+      params.push(`date BETWEEN "${req.query.startDate}" AND "${req.query.endDate}"`);
+      search = true;
+    }
+
+    if (req.query.checkBoolean && req.query.boolean) {
+      params.push(`boolean = "${req.query.boolean}"`);
+      search = true;
+    }
+
+    let dataSearch = ""
+    if (search) {
+      dataSearch += `WHERE ${params.join(' AND ')}`
+    }
+
+    const page = Number(req.query.page) || 1;
+    const limit = 3;
+    const offset = (page - 1) * limit;
+
+    let sql = `SELECT COUNT(id) AS total FROM test ${dataSearch}`
+    pool.query(sql, (err, data) => {
+      if (err) {
+        return res.json(err);
+      } else if (data.rows == 0) {
+        return res.send('Sorry, data not found')
+      } else {
+        const total = Number(data.rows[0].total);
+        const pages = Math.ceil(total / limit);
+
+        let sql = `SELECT * FROM test ${dataSearch} ORDER BY id LIMIT $1 OFFSET $2`;
+        pool.query(sql, [limit, offset], (err, data) => {
+          if (err) {
+            return res.send(err);
+          } else if (data.rows == 0) {
+            return res.send('Sorry, data not found')
+          } else
+            res.json({ data: data.rows, page, pages });
+
+        })
+
+      }
     })
+
   });
 
   router.post('/', function (req, res, next) {
@@ -18,16 +80,23 @@ module.exports = (pool) => {
     })
   });
 
+  router.get('/:id', function (req, res, next) {
+    pool.query('SELECT * FROM test WHERE id=$1', [Number(req.params.id)], (err, data) => {
+      if (err) return res.json(err)
+      res.json(data.rows)
+    })
+  });
+
   router.put('/:id', function (req, res, next) {
     pool.query('UPDATE test SET string=$1, integer=$2, float=$3, date=$4, boolean=$5 WHERE id=$6', [req.body.string, Number(req.body.integer), Number(req.body.float), req.body.date, req.body.boolean, Number(req.params.id)], (err, data) => {
-      if (err) return res.status(500).json({ err })
+      if (err) return res.json(err)
       res.json(data)
     })
   });
 
   router.delete('/:id', function (req, res, next) {
     pool.query('DELETE FROM test WHERE id=$1', [Number(req.params.id)], (err, data) => {
-      if (err) return res.status(500).json({ err })
+      if (err) return res.json(err)
       res.json(data)
     })
   });
