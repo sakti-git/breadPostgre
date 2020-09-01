@@ -19,6 +19,7 @@
     crossorigin="anonymous"></script>
 
   <form id="form-filter" method="GET" style="padding-inline: 50px;">
+    <input type="hidden" id="page" name="page" value="1">
     <div class="card">
       <div class="card-header card text-white bg-dark mb-3">
         <h2>B.R.E.A.D (Browse, Read, Edit, Add, Delete)</h2>
@@ -54,7 +55,7 @@
           <div class="col-10">
             <div class="form-group">
               <input type="text" name="fil-string" class="form-control" id="fil-string"
-                placeholder="Masukkan nilai String ...">
+                placeholder="Masukkan String ...">
             </div>
           </div>
         </div>
@@ -112,7 +113,7 @@
           <div class="w-100"></div>
           <div class="col-3 offset-2">
             <div class="form-group">
-              <input type="date" name="endDate" class="form-control">
+              <input type="date" name="endDate" class="form-control" id="endDate">
             </div>
           </div>
         </div>
@@ -426,10 +427,11 @@
 
       $('nav').on("click", 'li', function (event) {
         event.preventDefault();
+        console.log('di page ..',$(this).attr('pageid'));
         $('#page').val($(this).attr('pageid'))
         loadData();
-
       })
+
       $('#form-filter').submit((event) => {
         event.preventDefault();
         $('#page').val(1);
@@ -445,15 +447,23 @@
       let id = $('#fil-id').val();
       let string = $('#fil-string').val();
       let integer = $('#fil-integer').val();
-      let startDate = $('#startdate').val();
+      let startDate = $('#startDate').val();
       let endDate = $('#endDate').val();
       let float = $('#fil-float').val();
       let boolean = $('#fil-boolean').val();
 
+      let cekId = $("input[type=checkbox][name=checkId]:checked").val();
+      let cekString = $('input[type=checkbox][name=checkString]:checked').val();
+      let cekInteger = $('input[type=checkbox][name=checkInteger]:checked').val();  
+      let cekDate = $('input[type=checkbox][name=checkDate]:checked').val();
+      let cekFloat = $('input[type=checkbox][name=checkFloat]:checked').val();
+      let cekBoolean = $('input[type=checkbox][name=checkBoolean]:checked').val();
+
+
       $.ajax({
         method: "GET",
         url: `${API_URL}test`,
-        data: { page, id, string, integer, startDate, endDate, float, boolean },
+        data: { page, id, string, integer, startDate, endDate, float, boolean, cekId, cekString, cekInteger, cekDate, cekFloat, cekBoolean },
         dataType: 'json'
       })
         .done(result => {
@@ -464,6 +474,7 @@
           let html = '';
 
           console.log(`page:${page}, pages:${pages}`)
+          console.log('id', id)
 
           data.forEach(item => {
             html += `
